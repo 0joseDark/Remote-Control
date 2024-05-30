@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Configurações de Pinos</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Configurações de Pinos</h1>
+        <form action="/update_pins" method="post">
+            <label for="up">Pino Up:</label>
+            <input type="text" id="up" name="up" value="{{ pins['up'] }}"><br><br>
+            <label for="down">Pino Down:</label>
+            <input type="text" id="down" name="down" value="{{ pins['down'] }}"><br><br>
+            <label for="left">Pino Left:</label>
+            <input type="text" id="left" name="left" value="{{ pins['left'] }}"><br><br>
+            <label for="right">Pino Right:</label>
+            <input type="text" id="right" name="right" value="{{ pins['right'] }}"><br><br>
+            <label for="jump">Pino Jump:</label>
+            <input type="text" id="jump" name="jump" value="{{ pins['jump'] }}"><br><br>
+            <input type="submit" value="Atualizar Pinos">
+        </form>
+        {% if message %}
+            <p>{{ message }}</p>
+        {% endif %}
+    </div>
+</body>
+</html>

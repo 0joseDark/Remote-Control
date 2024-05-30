@@ -14,7 +14,10 @@
         <button class="btn down" onclick="sendAction('down')">▼</button>
         <button class="btn jump" onclick="sendAction('jump')">⏫</button>
     </div>
-
+    <div class="container">
+        <button class="btn settings" onclick="window.location.href='/settings'">Configurações</button>
+        <button class="btn file_browser" onclick="window.location.href='/file_browser'">Explorar Arquivos</button>
+    </div>
     <script>
         function sendAction(direction) {
             fetch('/action', {
