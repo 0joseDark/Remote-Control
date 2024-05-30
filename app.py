@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, send_from_directory, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, send_from_directory
 import RPi.GPIO as GPIO
 import time
 import os
@@ -8,11 +8,10 @@ app = Flask(__name__)
 # Configuração dos pinos GPIO
 GPIO.setmode(GPIO.BCM)
 pins = {
-    'up': 17,
-    'down': 18,
-    'left': 27,
-    'right': 22,
-    'jump': 23
+    'power': 17,
+    'pause': 18,
+    'stop': 27,
+    'exit': 22
 }
 
 for pin in pins.values():
@@ -24,30 +23,16 @@ current_file = None
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('index.html', current_file=current_file)
 
 @app.route('/action', methods=['POST'])
 def action():
-    direction = request.form['direction']
-    if direction in pins:
-        GPIO.output(pins[direction], GPIO.HIGH)
+    action = request.form['action']
+    if action in pins:
+        GPIO.output(pins[action], GPIO.HIGH)
         time.sleep(0.1)
-        GPIO.output(pins[direction], GPIO.LOW)
+        GPIO.output(pins[action], GPIO.LOW)
     return ('', 204)
-
-@app.route('/settings')
-def settings():
-    return render_template('settings.html', message="")
-
-@app.route('/update_pins', methods=['POST'])
-def update_pins():
-    global pins
-    new_pins = request.form.to_dict()
-    pins = {k: int(v) for k, v in new_pins.items()}
-    for pin in pins.values():
-        GPIO.setup(pin, GPIO.OUT)
-        GPIO.output(pin, GPIO.LOW)
-    return render_template('settings.html', message="Pinos atualizados com sucesso!")
 
 @app.route('/file_browser')
 def file_browser():

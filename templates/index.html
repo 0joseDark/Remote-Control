@@ -4,28 +4,37 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <title>Telecomando</title>
+    <title>Control Panel</title>
 </head>
 <body>
     <div class="container">
-        <button class="btn up" onclick="sendAction('up')">▲</button>
-        <button class="btn left" onclick="sendAction('left')">◀</button>
-        <button class="btn right" onclick="sendAction('right')">▶</button>
-        <button class="btn down" onclick="sendAction('down')">▼</button>
-        <button class="btn jump" onclick="sendAction('jump')">⏫</button>
-    </div>
-    <div class="container">
-        <button class="btn settings" onclick="window.location.href='/settings'">Configurações</button>
-        <button class="btn file_browser" onclick="window.location.href='/file_browser'">Explorar Arquivos</button>
+        <h1>Control Panel</h1>
+        <div>
+            <button class="btn" onclick="sendAction('power')">Ligar</button>
+            <button class="btn" onclick="sendAction('pause')">Pausa</button>
+            <button class="btn" onclick="sendAction('stop')">Desligar</button>
+            <button class="btn" onclick="sendAction('exit')">Sair</button>
+        </div>
+        <div>
+            <button class="btn" onclick="window.location.href='/file_browser'">Escolher Pasta/Arquivo</button>
+        </div>
+        {% if current_file %}
+            <div>
+                <h2>Arquivo Selecionado: {{ current_file }}</h2>
+                <form action="/download" method="get">
+                    <input type="submit" value="Baixar Arquivo Selecionado">
+                </form>
+            </div>
+        {% endif %}
     </div>
     <script>
-        function sendAction(direction) {
+        function sendAction(action) {
             fetch('/action', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
                 },
-                body: `direction=${direction}`
+                body: `action=${action}`
             });
         }
     </script>
