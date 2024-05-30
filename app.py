@@ -8,10 +8,13 @@ app = Flask(__name__)
 # Configuração dos pinos GPIO
 GPIO.setmode(GPIO.BCM)
 pins = {
-    'power': 17,
-    'pause': 18,
-    'stop': 27,
-    'exit': 22
+    'up': 17,
+    'down': 18,
+    'left': 27,
+    'right': 22,
+    'power': 23,
+    'pause': 24,
+    'stop': 25
 }
 
 for pin in pins.values():
@@ -27,11 +30,11 @@ def index():
 
 @app.route('/action', methods=['POST'])
 def action():
-    action = request.form['action']
-    if action in pins:
-        GPIO.output(pins[action], GPIO.HIGH)
+    direction = request.form['direction']
+    if direction in pins:
+        GPIO.output(pins[direction], GPIO.HIGH)
         time.sleep(0.1)
-        GPIO.output(pins[action], GPIO.LOW)
+        GPIO.output(pins[direction], GPIO.LOW)
     return ('', 204)
 
 @app.route('/file_browser')
