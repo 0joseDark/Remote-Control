@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Telecomando</title>
+</head>
+<body>
+    <div class="container">
+        <button class="btn up" onclick="sendAction('up')">▲</button>
+        <button class="btn left" onclick="sendAction('left')">◀</button>
+        <button class="btn right" onclick="sendAction('right')">▶</button>
+        <button class="btn down" onclick="sendAction('down')">▼</button>
+        <button class="btn jump" onclick="sendAction('jump')">⏫</button>
+    </div>
+
+    <script>
+        function sendAction(direction) {
+            fetch('/action', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `direction=${direction}`
+            });
+        }
+    </script>
+</body>
+</html>
