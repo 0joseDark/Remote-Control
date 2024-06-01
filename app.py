@@ -1,3 +1,7 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+# pip install flask
+
 from flask import Flask, render_template, request, redirect, url_for, send_from_directory
 import RPi.GPIO as GPIO
 import time
@@ -33,7 +37,7 @@ def action():
     direction = request.form['direction']
     if direction in pins:
         GPIO.output(pins[direction], GPIO.HIGH)
-        time.sleep(0.1)
+        time.sleep(0.5)
         GPIO.output(pins[direction], GPIO.LOW)
     return ('', 204)
 
